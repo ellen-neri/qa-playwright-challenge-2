@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class HomePage {
   readonly page: Page;
@@ -13,6 +13,7 @@ export class HomePage {
 
   async navigate() {
     await this.page.goto('https://automationteststore.com/');
+    await expect(this.page).toHaveTitle(/A place to practice your automation skills!/);
   }
 
   async searchForProduct(productName: string) {

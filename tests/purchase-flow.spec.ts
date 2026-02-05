@@ -16,7 +16,6 @@ test('Should allow a user to search, add product to cart and proceed to checkout
   const product = testData.product.productName;
 
     await homePage.navigate();
-    await expect(page).toHaveTitle(/A place to practice your automation skills!/);
     await homePage.searchForProduct(product);
     await searchResultsPage.selectProduct(product);
     await productPage.addToCart();
