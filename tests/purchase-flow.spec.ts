@@ -1,18 +1,19 @@
 import { test, expect } from '@playwright/test';
+import { testData } from '../data/testData';
 import { HomePage } from '../pages/HomePage';
 import { SearchResultsPage } from '../pages/SearchResultsPage';
 import { ProductPage } from '../pages/ProductPage';
 import { CartPage } from '../pages/CartPage';
 import { CheckoutPage } from '../pages/CheckoutPage';
 
-test('Place an order as a guest user', async ({ page }) => {
+test('Should allow a user to search, add product to cart and proceed to checkout', async ({ page }) => {
   const homePage = new HomePage(page);
   const searchResultsPage = new SearchResultsPage(page);
   const productPage = new ProductPage(page);
   const cartPage = new CartPage(page);
   const checkoutPage = new CheckoutPage(page);
 
-  const product = 'Lipstick';
+  const product = testData.product.productName;
 
     await homePage.navigate();
     await expect(page).toHaveTitle(/A place to practice your automation skills!/);
@@ -21,6 +22,6 @@ test('Place an order as a guest user', async ({ page }) => {
     await productPage.addToCart();
     await cartPage.proceedToCheckout();
     await cartPage.selectCheckoutAsGuest();
-    await checkoutPage.fillClientDetails();
+    await checkoutPage.fillUserDetails(testData.userInfo, testData.location);
     await checkoutPage.verifyConfirmOrderVisible();
 });

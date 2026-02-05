@@ -1,5 +1,8 @@
 import { Page, Locator, expect } from '@playwright/test';
 
+type UserData = { firstName: string; lastName: string; email: string };
+type LocationData = { address: string; city: string; zipcode: string };
+
 export class CheckoutPage {
   readonly page: Page;
   readonly firstNameInput: Locator;
@@ -27,15 +30,15 @@ export class CheckoutPage {
     this.confirmOrderButton = page.getByRole('button', { name: 'Confirm Order' })
   }
 
-  async fillClientDetails() {
-    await this.firstNameInput.fill('Ellen');
-    await this.lastNameInput.fill('Neri');
-    await this.emailInput.fill(`ellen.neri.@test.com`);
-    await this.addressInput.fill('123 Test Street');
-    await this.cityInput.fill('New York');
+  async fillUserDetails(userInfo: UserData, location: LocationData) {
+    await this.firstNameInput.fill(userInfo.firstName);
+    await this.lastNameInput.fill(userInfo.lastName);
+    await this.emailInput.fill(userInfo.email);
+    await this.addressInput.fill(location.address);
+    await this.cityInput.fill(location.city);
     await this.countrySelect.selectOption({ label: 'United States' });
     await this.regionSelect.selectOption({ label: 'New York' });
-    await this.zipCodeInput.fill('10001');
+    await this.zipCodeInput.fill(location.zipcode);
     
     await this.continueButton.click();
   }
